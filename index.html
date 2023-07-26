@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Change with Image</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: background-color 0.5s;
+        }
+
+        .matrix-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0;
+            background: linear-gradient(transparent 90%, rgba(0, 255, 0, 0.1) 90%, rgba(0, 255, 0, 0.1)),
+                url("matrix-background.gif") repeat;
+            animation: matrixAnimation 10s linear infinite;
+        }
+
+        @keyframes matrixAnimation {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-100%);
+            }
+        }
+
+        .container {
+            position: relative;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            opacity: 1;
+            transition: opacity 0.5s;
+        }
+
+        body.black-bg {
+            background-color: black;
+        }
+
+        body.black-bg img {
+            opacity: 0.7;
+        }
+
+        .access-granted {
+            position: absolute;
+            top: -30%;
+            left: 54%;
+            transform: translateX(-50%);
+            color: green;
+            font-size: 40px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.5s;
+            white-space: nowrap;
+            font-family: 'Future', sans-serif;
+            text-shadow:
+                0 0 10px rgba(0, 255, 0, 0.8),
+                0 0 20px rgba(0, 255, 0, 0.8),
+                0 0 30px rgba(0, 255, 0, 0.8),
+                0 0 40px rgba(0, 255, 0, 0.8),
+                0 0 50px rgba(0, 255, 0, 0.8),
+                0 0 60px rgba(0, 255, 0, 0.8),
+                0 0 70px rgba(0, 255, 0, 0.8),
+                0 0 80px rgba(0, 255, 0, 0.8),
+                0 0 90px rgba(0, 255, 0, 0.8),
+                0 0 100px rgba(0, 255, 0, 0.8);
+        }
+
+        .show-text .access-granted {
+            opacity: 1;
+        }
+
+        .green-grids {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(to right, transparent 0%, transparent 33.333%, rgba(0, 255, 0, 0.2) 33.333%, rgba(0, 255, 0, 0.2) 66.666%, transparent 66.666%),
+                linear-gradient(to bottom, transparent 0%, transparent 33.333%, rgba(0, 255, 0, 0.2) 33.333%, rgba(0, 255, 0, 0.2) 66.666%, transparent 66.666%);
+            background-size: 3px 3px;
+        }
+
+        @font-face {
+            font-family: 'Future';
+            src: local('Future'), url('Future.ttf') format('truetype');
+        }
+    </style>
+</head>
+
+<body>
+    <div class="matrix-background"></div>
+    <div class="green-grids"></div>
+    <div class="container">
+        <img src="lostsociety.png" alt="Your Image">
+        <div class="access-granted">Access Granted</div>
+    </div>
+
+    <!-- Audio Element for "Access Granted" Sound -->
+    <audio id="accessGrantedSound" src="access-granted.mp3"></audio>
+
+    <script>
+        // Define the correct sequences
+        const correctSequenceLo = "lostsociety";
+        const correctSequenceSmiley = "smiley";
+
+        // Variable to keep track of the user's input
+        let enteredText = "";
+
+        // Function to check if the entered text matches the correct sequences
+        function checkEnteredText() {
+            if (enteredText === correctSequenceLo) {
+                document.body.classList.add("black-bg");
+                document.body.classList.add("green-grids");
+            }
+            if (enteredText === correctSequenceSmiley && document.body.classList.contains("black-bg")) {
+                document.body.classList.add("show-text");
+                enteredText = "";
+                setTimeout(() => {
+                    document.body.classList.remove("show-text");
+                }, 500);
+                setTimeout(() => {
+                    document.body.classList.add("show-text");
+                    // Play the audio when "Access Granted" is shown
+                    playAccessGrantedSound();
+                }, 1000);
+                // Redirect to a website after 3 seconds
+                setTimeout(() => {
+                    redirectToWebsite();
+                }, 3000);
+            }
+        }
+
+        // Function to play the audio when "Access Granted" is shown
+        function playAccessGrantedSound() {
+            const audio = document.getElementById("accessGrantedSound");
+            audio.play();
+        }
+
+        // Function to redirect to a website after showing "Access Granted" message
+        function redirectToWebsite() {
+                    window.location.href = 'https://i.ibb.co/0tc848Q/L2.png';
+        }
+
+        document.addEventListener("keydown", function (event) {
+            const key = event.key.toLowerCase();
+            if (/^[a-z\s]$/.test(key)) {
+                enteredText += key;
+                checkEnteredText();
+            }
+            if (!correctSequenceLo.startsWith(enteredText) && !correctSequenceSmiley.startsWith(enteredText)) {
+                enteredText = "";
+            }
+        });
+    </script>
+</body>
+
+</html>
