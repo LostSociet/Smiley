@@ -119,14 +119,11 @@
     <audio id="accessGrantedSound" src="access-granted.mp3"></audio>
 
     <script>
-        // Define the correct sequences
         const correctSequenceLo = "lostsociety";
         const correctSequenceSmiley = "smiley";
 
-        // Variable to keep track of the user's input
         let enteredText = "";
 
-        // Function to check if the entered text matches the correct sequences
         function checkEnteredText() {
             if (enteredText === correctSequenceLo) {
                 document.body.classList.add("black-bg");
@@ -140,25 +137,21 @@
                 }, 500);
                 setTimeout(() => {
                     document.body.classList.add("show-text");
-                    // Play the audio when "Access Granted" is shown
                     playAccessGrantedSound();
                 }, 1000);
-                // Redirect to a website after 3 seconds
                 setTimeout(() => {
                     redirectToWebsite();
                 }, 3000);
             }
         }
 
-        // Function to play the audio when "Access Granted" is shown
         function playAccessGrantedSound() {
             const audio = document.getElementById("accessGrantedSound");
             audio.play();
         }
 
-        // Function to redirect to a website after showing "Access Granted" message
         function redirectToWebsite() {
-                    window.location.href = 'https://i.ibb.co/0tc848Q/L2.png';
+            window.location.href = 'https://i.ibb.co/0tc848Q/L2.png';
         }
 
         document.addEventListener("keydown", function (event) {
